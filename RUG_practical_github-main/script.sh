@@ -27,7 +27,7 @@ awk '/^>/ { # header pattern detected
 seqlen += length($0)
 }
 # remnant seqlen if exists
-END{if(seqlen){print seqlen}}' ./data/$file > lengths.txt
+END{if(seqlen){print seqlen}}' ./data/$file >> lengths.txt
 
 done
 
@@ -35,7 +35,7 @@ done
 number=$(cut -d: -f 2 lengths.txt | sort -n | tail -n 1)
 
 #get the fasta header corresponding to the number, keep unique, and get rid of ">"; -w option for grep is the length of the longest
-test=$(grep -B 1 -w 841 lengths.txt | grep '>' | sort -u | cut -c2-)
+test=$(grep -B 1 -w ${number} lengths.txt | grep '>' | sort -u | cut -c2-)
 
 #Print the output!
 echo "The longest sequence(s) "${test}" is or are "${number}" amino acids long."
